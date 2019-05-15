@@ -1,14 +1,25 @@
-package com.gildedrose;
+package com.gildedrose.service;
 
-class GildedRose {
-    Item[] items;
+import com.gildedrose.api.dto.Item;
+import com.gildedrose.repo.ItemRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.stereotype.Service;
 
-    public GildedRose(Item[] items) {
-        this.items = items;
+import java.util.List;
+
+@Service
+public class GildedRose {
+
+    private ItemRepo itemRepo;
+
+    @Autowired
+    public GildedRose(ItemRepo itemRepo) {
+        this.itemRepo = itemRepo;
     }
 
     public void updateQuality() {
-        for (Item item : items) {
+        for (Item item : itemRepo.findAll()) {
             if (!item.getName().equals("Aged Brie")
                     && !item.getName().equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (item.getQuality() > 0) {
@@ -59,4 +70,9 @@ class GildedRose {
             }
         }
     }
+
+    public List<Item> getItems() {
+        return ((PageImpl<Item>) itemRepo.findAll()).getContent();
+    }
+
 }

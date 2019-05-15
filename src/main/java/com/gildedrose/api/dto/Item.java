@@ -1,10 +1,14 @@
-package com.gildedrose;
+package com.gildedrose.api.dto;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
+@Document(indexName = "myindex", type = "item")
 public class Item {
 
+    @Id
     private String name;
     private int sellIn;
     private int quality;
