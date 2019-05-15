@@ -1,9 +1,6 @@
 package com.gildedrose.service;
 
 import com.gildedrose.api.dto.Item;
-import com.gildedrose.repo.ItemRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,15 +8,8 @@ import java.util.List;
 @Service
 public class GildedRose {
 
-    private ItemRepo itemRepo;
-
-    @Autowired
-    public GildedRose(ItemRepo itemRepo) {
-        this.itemRepo = itemRepo;
-    }
-
-    public void updateQuality() {
-        for (Item item : itemRepo.findAll()) {
+    public void updateQuality(List<Item> items) {
+        for (Item item : items) {
             if (!item.getName().equals("Aged Brie")
                     && !item.getName().equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (item.getQuality() > 0) {
@@ -69,10 +59,6 @@ public class GildedRose {
                 }
             }
         }
-    }
-
-    public List<Item> getItems() {
-        return ((PageImpl<Item>) itemRepo.findAll()).getContent();
     }
 
 }

@@ -1,15 +1,11 @@
 package com.gildedrose;
 
 import com.gildedrose.api.dto.Item;
-import com.gildedrose.repo.ItemRepo;
 import com.gildedrose.service.GildedRose;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +17,6 @@ public class GildedRoseTest {
 
     @InjectMocks
     private GildedRose app;
-    @Mock
-    private ItemRepo itemRepo;
 
     @Test
     public void foo() {
@@ -35,37 +29,30 @@ public class GildedRoseTest {
 
     @Test
     public void updateQuality_expectedResultAfter0Days() {
-        Mockito.when(itemRepo.findAll()).thenReturn(new PageImpl<>(createItems()));
-
-        String resultAfterDays = "+5 Dexterity Vest, 9, 19Aged Brie, 1, 1Elixir of the Mongoose, 4, 6Sulfuras, Hand of Ragnaros, 0, 80Sulfuras, Hand of Ragnaros, -1, 80Backstage passes to a TAFKAL80ETC concert, 14, 21Backstage passes to a TAFKAL80ETC concert, 9, 50Backstage passes to a TAFKAL80ETC concert, 4, 50Conjured Mana Cake, 2, 5";
-        assertEquals(updateForNumberOfDays(0), resultAfterDays);
+        String resultAfterDays = "+5 Dexterity Vest, 10, 20Aged Brie, 2, 0Elixir of the Mongoose, 5, 7Sulfuras, Hand of Ragnaros, 0, 80Sulfuras, Hand of Ragnaros, -1, 80Backstage passes to a TAFKAL80ETC concert, 15, 20Backstage passes to a TAFKAL80ETC concert, 10, 49Backstage passes to a TAFKAL80ETC concert, 5, 49Conjured Mana Cake, 3, 6";
+        assertEquals(updateForNumberOfDays(0, createItems()), resultAfterDays);
     }
 
     @Test
     public void updateQuality_expectedResultAfter5Days() {
-        Mockito.when(itemRepo.findAll()).thenReturn(new PageImpl<>(createItems()));
-
         String resultAfterDays = "+5 Dexterity Vest, 5, 15Aged Brie, -3, 8Elixir of the Mongoose, 0, 2Sulfuras, Hand of Ragnaros, 0, 80Sulfuras, Hand of Ragnaros, -1, 80Backstage passes to a TAFKAL80ETC concert, 10, 25Backstage passes to a TAFKAL80ETC concert, 5, 50Backstage passes to a TAFKAL80ETC concert, 0, 50Conjured Mana Cake, -2, 0";
-        assertEquals(updateForNumberOfDays(5), resultAfterDays);
+        assertEquals(updateForNumberOfDays(5, createItems()), resultAfterDays);
     }
 
     @Test
     public void updateQuality_expectedResultAfter8Days() {
-        Mockito.when(itemRepo.findAll()).thenReturn(new PageImpl<>(createItems()));
-
         String resultAfterDays = "+5 Dexterity Vest, 2, 12Aged Brie, -6, 14Elixir of the Mongoose, -3, 0Sulfuras, Hand of Ragnaros, 0, 80Sulfuras, Hand of Ragnaros, -1, 80Backstage passes to a TAFKAL80ETC concert, 7, 31Backstage passes to a TAFKAL80ETC concert, 2, 50Backstage passes to a TAFKAL80ETC concert, -3, 0Conjured Mana Cake, -5, 0";
-        assertEquals(updateForNumberOfDays(8), resultAfterDays);
+        assertEquals(updateForNumberOfDays(8, createItems()), resultAfterDays);
     }
 
-    private String updateForNumberOfDays(int days) {
-        app.updateQuality();
+    private String updateForNumberOfDays(int days, List<Item> items) {
 
-        for (int i = 0; i < days - 1; i++) {
-            app.updateQuality();
+        for (int i = 0; i < days; i++) {
+            app.updateQuality(items);
         }
 
         StringBuilder result = new StringBuilder();
-        for (Item item : app.getItems()) {
+        for (Item item : items) {
             result.append(item);
         }
         return result.toString();

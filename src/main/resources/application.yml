@@ -7,3 +7,5 @@ spring.data.elasticsearch:
   repositories.enabled: true
   cluster-nodes: localhost:9300
   cluster-name: docker-cluster
+
+tele.item-update.cron: 0 0 1 * * *

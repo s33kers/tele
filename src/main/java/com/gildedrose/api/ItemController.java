@@ -1,7 +1,7 @@
 package com.gildedrose.api;
 
 import com.gildedrose.api.dto.Item;
-import com.gildedrose.service.GildedRose;
+import com.gildedrose.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,16 +14,15 @@ import java.util.List;
 @RequestMapping(value = "/v1", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ItemController {
 
-    private GildedRose gildedRose;
+    private ItemService itemService;
 
     @Autowired
-    public ItemController(GildedRose gildedRose) {
-        this.gildedRose = gildedRose;
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
-    //TODO add paging
     @GetMapping("/items")
     public List<Item> getItems() {
-        return gildedRose.getItems();
+        return itemService.getItems();
     }
 }
