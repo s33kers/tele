@@ -1,7 +1,6 @@
 package com.gildedrose.service.behaviour;
 
 import com.gildedrose.api.dto.Item;
-import lombok.Data;
 
 public class SimpleItem implements ItemBehaviour {
 
@@ -13,14 +12,20 @@ public class SimpleItem implements ItemBehaviour {
 
     @Override
     public void updateQuality() {
-        if (item.getQuality() > 0) {
-            item.setQuality(item.getQuality() - 1);
-        }
+        decreaseQuality(item.getQuality() > 0);
         item.setSellIn(item.getSellIn() - 1);
-        if (item.getSellIn() < 0) {
-            if (item.getQuality() > 0) {
-                item.setQuality(item.getQuality() - 1);
-            }
+        decreaseQuality(item.getSellIn() < 0 && item.getQuality()  > 0);
+    }
+
+    void increaseQuality(boolean condition) {
+        if (condition) {
+            item.setQuality(item.getQuality() + 1);
+        }
+    }
+
+    void decreaseQuality(boolean condition) {
+        if (condition) {
+            item.setQuality(item.getQuality() - 1);
         }
     }
 }

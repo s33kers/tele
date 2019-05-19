@@ -16,5 +16,4 @@ public class GildedRose {
             itemBehaviour.updateQuality();
         }
     }
-
 }

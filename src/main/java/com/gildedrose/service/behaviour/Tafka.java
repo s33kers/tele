@@ -11,20 +11,13 @@ public class Tafka extends SimpleItem {
     @Override
     public void updateQuality() {
         if (item.getQuality() < 50) {
-            item.setQuality(item.getQuality() + 1);
-            if (item.getSellIn() < 11) {
-                if (item.getQuality() < 50) {
-                    item.setQuality(item.getQuality() + 1);
-                }
-            }
+            increaseQuality(item.getQuality() < 50);
+            increaseQuality(item.getSellIn() < 11 && item.getQuality() < 50);
+            increaseQuality(item.getSellIn() < 6 && item.getQuality() < 50);
 
-            if (item.getSellIn() < 6) {
-                if (item.getQuality() < 50) {
-                    item.setQuality(item.getQuality() + 1);
-                }
-            }
         }
         item.setSellIn(item.getSellIn() - 1);
+
         if (item.getSellIn() < 0) {
             item.setQuality(0);
         }
