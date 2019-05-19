@@ -1,7 +1,9 @@
 package com.gildedrose.service.behaviour;
 
 import com.gildedrose.api.dto.Item;
+import lombok.Getter;
 
+@Getter
 public class SimpleItem implements ItemBehaviour {
 
     protected Item item;

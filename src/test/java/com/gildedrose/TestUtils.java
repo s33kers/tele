@@ -7,11 +7,10 @@ import java.util.List;
 
 public class TestUtils {
 
-
     public static String updateForNumberOfDays(GildedRose app, int days, List<Item> items) {
 
         for (int i = 0; i < days; i++) {
-            app.updateQuality(items);
+            items = app.updateQuality(items);
         }
 
         StringBuilder result = new StringBuilder();
